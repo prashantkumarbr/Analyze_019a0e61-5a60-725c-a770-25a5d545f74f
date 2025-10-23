@@ -1,0 +1,54 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Executor</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { margin: 20px; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Data Executor</h1>
+    <div class="form-group">
+        <label for="urlInput">URL (optional)</label>
+        <input type="text" class="form-control" id="urlInput" placeholder="Enter ?url= parameter">
+    </div>
+    <button class="btn btn-primary" id="fetchButton">Fetch Data</button>
+    
+    <h2>Output</h2>
+    <pre id="output"></pre>
+</div>
+
+<script>
+    document.getElementById('fetchButton').addEventListener('click', async function() {
+        const urlInput = document.getElementById('urlInput').value;
+        const url = urlInput ? urlInput : 'data.csv'; // Fallback content
+        let data;
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Network response was not ok');
+            data = await response.text();
+        } catch (error) {
+            console.error('Fetch error:', error);
+            data = await fetchFallbackData();
+        }
+
+        document.getElementById('output').textContent = data;
+    });
+
+    async function fetchFallbackData() {
+        // Fallback content from data.csv to be handled here
+        return 'Sample data from data.csv'; // Replace with real fallback data
+    }
+</script>
+
+</body>
+</html>
+```
